@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import Like from "./common/like.jsx";
 import Table from "./common/table.jsx";
+import { Link } from "react-router-dom";
 
 class MoviesTable extends Component {
   render() {
     let { movies, onLike, onDelete, onSort, sortColumn } = this.props;
     const headers = [
-      { path: "title", label: "Title" },
+      {
+        path: "title",
+        label: "Title",
+        content: (movie) => (
+          <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+        ),
+      },
       { path: "numberInStock", label: "Stock" },
       { path: "genre.name", label: "Genre" },
       { path: "dailyRentalRate", label: "Rate" },

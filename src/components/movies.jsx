@@ -67,34 +67,36 @@ class Movies extends Component {
     let paginatedMovies = paginate(sortedMovies, pageSize, currentPage);
 
     return (
-      <div className="row">
-        <div className="col-2">
-          <ListGroup
-            items={genres}
-            selectedItem={selectedGenre}
-            onSelectItem={this.handleSelectItem}
-          />
+      <React.Fragment>
+        <div className="row">
+          <div className="col-2">
+            <ListGroup
+              items={genres}
+              selectedItem={selectedGenre}
+              onSelectItem={this.handleSelectItem}
+            />
+          </div>
+
+          <div className="col">
+            <p>Showing {sortedMovies.length} movies from the database</p>
+
+            <MoviesTable
+              movies={paginatedMovies}
+              onLike={this.handleLike}
+              onDelete={this.handleDelete}
+              onSort={this.handleSort}
+              sortColumn={sortColumn}
+            />
+
+            <Pagination
+              itemsCount={moviesCount}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
         </div>
-
-        <div className="col">
-          <p>Showing {sortedMovies.length} movies from the database</p>
-
-          <MoviesTable
-            movies={paginatedMovies}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-            sortColumn={sortColumn}
-          />
-
-          <Pagination
-            itemsCount={moviesCount}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
