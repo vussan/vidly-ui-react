@@ -5,12 +5,13 @@ import Pagination from "./common/pagiantion.jsx";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
 import MoviesTable from "./moviesTable.jsx";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 
 class Movies extends Component {
   state = {
     movies: [],
-    pageSize: 2,
+    pageSize: 3,
     currentPage: 1,
     genres: [],
     selectedGenre: null,
@@ -78,6 +79,13 @@ class Movies extends Component {
           </div>
 
           <div className="col">
+            <Link
+              className="btn btn-primary"
+              to="/movies/add"
+              style={{ marginBottom: 20 }}
+            >
+              Add Movie
+            </Link>
             <p>Showing {sortedMovies.length} movies from the database</p>
 
             <MoviesTable
