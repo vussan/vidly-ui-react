@@ -5,6 +5,7 @@ import Pagination from "./common/pagiantion.jsx";
 import { paginate } from "../utils/paginate.js";
 import ListGroup from "./common/listGroup.jsx";
 import MoviesTable from "./moviesTable.jsx";
+import SearchInput from "./common/searchInput.jsx";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
@@ -16,6 +17,7 @@ class Movies extends Component {
     genres: [],
     selectedGenre: null,
     sortColumn: { path: "title", order: "asc" },
+    searchInput: null,
   };
 
   componentDidMount() {
@@ -45,21 +47,38 @@ class Movies extends Component {
   };
 
   handleSelectItem = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, currentPage: 1, searchInput: "" });
   };
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
 
+  handleSearch = (searchInput) => {
+    const genre = { _id: 0, name: "All Genre" };
+    this.setState({ searchInput, currentPage: 1, selectedGenre: genre });
+  };
+
   render() {
-    let { movies, pageSize, currentPage, genres, selectedGenre, sortColumn } =
-      this.state;
+    let {
+      movies,
+      pageSize,
+      currentPage,
+      genres,
+      selectedGenre,
+      sortColumn,
+      searchInput,
+    } = this.state;
     let moviesCount = movies.length;
 
     if (moviesCount === 0) return <p>There are no movies in the database</p>;
 
-    if (selectedGenre._id) {
+    if (searchInput) {
+      movies = movies.filter((movie) =>
+        movie.title.toLowerCase().startsWith(searchInput.toLowerCase())
+      );
+      moviesCount = movies.length;
+    } else if (selectedGenre._id) {
       movies = movies.filter((movie) => movie.genre._id === selectedGenre._id);
       moviesCount = movies.length;
     }
@@ -87,6 +106,8 @@ class Movies extends Component {
               Add Movie
             </Link>
             <p>Showing {sortedMovies.length} movies from the database</p>
+
+            <SearchInput value={searchInput} onChange={this.handleSearch} />
 
             <MoviesTable
               movies={paginatedMovies}
