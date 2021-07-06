@@ -13,7 +13,7 @@ class Form extends Component {
     });
     if (!error) return null;
 
-    error.details.map((x) => {
+    error.details.forEach((x) => {
       errors[x.path] = x.message;
     });
     return errors;

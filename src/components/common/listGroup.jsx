@@ -4,21 +4,23 @@ const ListGroup = (props) => {
     props;
 
   return (
-    <ui className="list-group">
-      {items.map((item) => (
-        <li
-          key={item[valueProperty]}
-          onClick={() => onSelectItem(item)}
-          className={
-            item[valueProperty] === selectedItem[valueProperty]
-              ? "list-group-item active"
-              : "list-group-item"
-          }
-        >
-          {item[textProperty]}
-        </li>
-      ))}
-    </ui>
+    <React.Fragment>
+      <div className="list-group">
+        {items.map((item) => (
+          <li
+            key={item[valueProperty]}
+            onClick={() => onSelectItem(item)}
+            className={
+              item[valueProperty] === selectedItem[valueProperty]
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+          >
+            {item[textProperty]}
+          </li>
+        ))}
+      </div>
+    </React.Fragment>
   );
 };
 
