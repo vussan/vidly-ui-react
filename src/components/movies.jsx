@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import * as movieService from "../services/movieService";
 import * as genreService from "../services/genreService";
+import { toast } from "react-toastify";
 
 class Movies extends Component {
   state = {
@@ -40,9 +41,10 @@ class Movies extends Component {
 
     try {
       await movieService.deleteMovie(movie._id);
+      toast.success("Deleted Successfully");
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
-        alert("This movie has already been deleted");
+        toast.error("This movie has already been deleted");
     }
   };
 
@@ -96,7 +98,7 @@ class Movies extends Component {
 
     let sortedMovies = _.orderBy(movies, sortColumn.path, sortColumn.order);
     let paginatedMovies = paginate(sortedMovies, pageSize, currentPage);
-
+    const { user } = this.props;
     return (
       <React.Fragment>
         <div className="row">
@@ -109,13 +111,15 @@ class Movies extends Component {
           </div>
 
           <div className="col">
-            <Link
-              className="btn btn-primary"
-              to="/movies/add"
-              style={{ marginBottom: 20 }}
-            >
-              Add Movie
-            </Link>
+            {user && (
+              <Link
+                className="btn btn-primary"
+                to="/movies/add"
+                style={{ marginBottom: 20 }}
+              >
+                Add Movie
+              </Link>
+            )}
             <p>Showing {sortedMovies.length} movies from the database</p>
 
             <SearchInput value={searchInput} onChange={this.handleSearch} />

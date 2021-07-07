@@ -1,7 +1,7 @@
 import http from "./httpService";
 import config from "../config.json"
 
-const moviesEndPoint=config.apiEndPoint+'movies'
+const moviesEndPoint=config.apiURL+'movies'
 export async function getMovies(){
     let movies= await http.get(moviesEndPoint);
     return movies;
